@@ -14,12 +14,10 @@ namespace CursedSoundMod
     public class CursedSoundMod : BaseUnityPlugin
     {
         private const string modGUID = "toemmsen.CursedSoundMod";
-
         private const string modName = "Cursed Trigger Sound";
-
         private const string modVersion = "1.0.0";
 
-        private readonly Harmony harmony = new Harmony("toemmsen.CursedSoundMod");
+        private readonly Harmony harmony = new Harmony(modGUID);
 
         private static string audioFile = "mineTrigger.mp3";
 
@@ -33,10 +31,12 @@ namespace CursedSoundMod
 
         private void Awake()
         {
-            if ((System.Object)(object)instance == (System.Object)null)
+            if (instance == null)
             {
                 instance = this;
             }
+
+
             mls = BepInEx.Logging.Logger.CreateLogSource(modGUID);
             mls.LogInfo((object)"Cursed Mine Sound loading...");
             newSFX = LoadAudioClip(uPath + audioFile);
@@ -44,8 +44,9 @@ namespace CursedSoundMod
             {
                 mls.LogError((object)"Failed to load audio clip");
             }
-            harmony.PatchAll(typeof(LandmineTriggerPatch));
+            
             harmony.PatchAll(typeof(CursedSoundMod));
+            harmony.PatchAll(typeof(LandmineTriggerPatch));
 
             mls.LogInfo((object)"Cursed Mine sound loaded!");
         }

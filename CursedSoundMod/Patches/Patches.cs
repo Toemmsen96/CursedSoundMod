@@ -12,12 +12,12 @@ namespace CursedSoundMod.Patches
     [HarmonyPatch(typeof(Landmine))]
     internal class LandmineTriggerPatch
     {
-        [HarmonyPatch("Start")]
-        [HarmonyPostfix]
-        private static void TriggerPatch(ref AudioClip ___mineTrigger)
+        [HarmonyPatch("SetOffMineAnimation")]
+        [HarmonyPrefix]
+        private static void TriggerPatch(ref AudioSource ___mineAudio)
         {
             AudioClip newSFX = CursedSoundMod.newSFX;
-            ___mineTrigger = newSFX;
+            ___mineAudio.PlayOneShot(newSFX, 1f);
         }
     }
 }

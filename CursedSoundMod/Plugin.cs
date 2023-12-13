@@ -10,7 +10,7 @@ using UnityEngine.Networking;
 namespace CursedSoundMod
 {
 
-    
+    [BepInPlugin(modGUID, modName, modVersion)]
     public class CursedSoundMod : BaseUnityPlugin
     {
         private const string modGUID = "toemmsen.CursedSoundMod";
@@ -45,6 +45,8 @@ namespace CursedSoundMod
                 mls.LogError((object)"Failed to load audio clip");
             }
             harmony.PatchAll(typeof(LandmineTriggerPatch));
+            harmony.PatchAll(typeof(CursedSoundMod));
+
             mls.LogInfo((object)"Cursed Mine sound loaded!");
         }
 

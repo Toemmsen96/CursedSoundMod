@@ -20,6 +20,9 @@ namespace CursedSoundMod
         private readonly Harmony harmony = new Harmony(modGUID);
 
         private static string audioFile = "mineTrigger.mp3";
+        private static string audioFile2 = "skibidi.mp3";
+        private static string audioFile3 = "erika.mp3";
+
 
         private static string uPath = Path.Combine(Paths.PluginPath + "\\Booombitch\\");
 
@@ -28,6 +31,8 @@ namespace CursedSoundMod
         internal ManualLogSource mls;
 
         internal static AudioClip newSFX;
+        internal static AudioClip skibidi;
+        internal static AudioClip erika;
 
         private void Awake()
         {
@@ -40,13 +45,17 @@ namespace CursedSoundMod
             mls = BepInEx.Logging.Logger.CreateLogSource(modGUID);
             mls.LogInfo((object)"Cursed Mine Sound loading...");
             newSFX = LoadAudioClip(uPath + audioFile);
-            if ((object)newSFX == null)
+            skibidi = LoadAudioClip(uPath + audioFile2);
+            erika = LoadAudioClip(uPath + audioFile3);
+
+            if ((object)newSFX == null || (object)skibidi == null || (object)erika == null)
             {
-                mls.LogError((object)"Failed to load audio clip");
+                mls.LogError((object)"Failed to load an audio clip");
             }
             
             harmony.PatchAll(typeof(CursedSoundMod));
             harmony.PatchAll(typeof(LandmineTriggerPatch));
+            harmony.PatchAll(typeof(RecordPlayerPatch));
 
             mls.LogInfo((object)"Cursed Mine sound loaded!");
         }

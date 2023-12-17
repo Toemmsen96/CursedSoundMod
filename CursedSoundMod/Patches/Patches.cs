@@ -20,4 +20,16 @@ namespace CursedSoundMod.Patches
             ___mineAudio.PlayOneShot(newSFX, 1f);
         }
     }
+
+    [HarmonyPatch(typeof(AnimatedObjectTrigger))]
+    internal class RecordPlayerPatch
+    {
+        [HarmonyPatch("Start")]
+        [HarmonyPostfix]
+        private static void RecPatch(ref AudioClip ___playWhileTrue)
+        {
+            AudioClip newSFX = CursedSoundMod.erika;
+            ___playWhileTrue = newSFX;
+        }
+    }
 }

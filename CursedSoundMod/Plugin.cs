@@ -54,9 +54,9 @@ namespace CursedSoundMod
                 return;
             }
 
-            newSFX = LoadAudioClip(uPath + audioFile);
-            skibidi = LoadAudioClip(uPath + audioFile2);
-            erika = LoadAudioClip(uPath + audioFile3);
+            newSFX = LoadAudioClip(uPath + "\\" + audioFile);
+            skibidi = LoadAudioClip(uPath + "\\" + audioFile2);
+            erika = LoadAudioClip(uPath + "\\" + audioFile3);
 
             if ((object)newSFX == null || (object)skibidi == null || (object)erika == null)
             {

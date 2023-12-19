@@ -29,7 +29,7 @@ namespace CursedSoundMod.Patches
         private static void RecPatch(ref AudioClip ___playWhileTrue)
         {
             AudioClip newSFX = CursedSoundMod.erika;
-            ___playWhileTrue = newSFX;
+            //___playWhileTrue = newSFX;
         }
     }
 }

@@ -14,8 +14,8 @@ namespace CursedSoundMod
     public class CursedSoundMod : BaseUnityPlugin
     {
         private const string modGUID = "toemmsen.CursedSoundMod";
-        private const string modName = "Cursed Trigger Sound";
-        private const string modVersion = "1.0.0";
+        private const string modName = "ToemmsensCursedSoundMod";
+        private const string modVersion = "1.0.3";
 
         private readonly Harmony harmony = new Harmony(modGUID);
 
@@ -24,7 +24,7 @@ namespace CursedSoundMod
         private static string audioFile3 = "erika.mp3";
 
 
-        private static string uPath = Path.Combine(Paths.PluginPath + "\\Booombitch\\");
+        private static string uPath = null;
 
         private static CursedSoundMod instance;
 
@@ -41,9 +41,19 @@ namespace CursedSoundMod
                 instance = this;
             }
 
-
             mls = BepInEx.Logging.Logger.CreateLogSource(modGUID);
-            mls.LogInfo((object)"Cursed Mine Sound loading...");
+            mls.LogInfo((object)"Cursed Sounds loading...");
+
+            // Dynamically find the Booombitch folder
+            uPath = FindBooombitchFolder();
+
+            // Check if the folder is found
+            if (uPath == null)
+            {
+                mls.LogError((object)"Booombitch folder not found!");
+                return;
+            }
+
             newSFX = LoadAudioClip(uPath + audioFile);
             skibidi = LoadAudioClip(uPath + audioFile2);
             erika = LoadAudioClip(uPath + audioFile3);
@@ -52,12 +62,29 @@ namespace CursedSoundMod
             {
                 mls.LogError((object)"Failed to load an audio clip");
             }
-            
+
             harmony.PatchAll(typeof(CursedSoundMod));
             harmony.PatchAll(typeof(LandmineTriggerPatch));
             harmony.PatchAll(typeof(RecordPlayerPatch));
 
             mls.LogInfo((object)"Cursed Mine sound loaded!");
+        }
+
+        private string FindBooombitchFolder()
+        {
+            // Get the root directory of the application
+            string rootDirectory = Paths.PluginPath;
+
+            // Search for Booombitch folder
+            string[] matchingFolders = Directory.GetDirectories(rootDirectory, "Booombitch", SearchOption.AllDirectories);
+
+            // Check if Booombitch folder is found
+            if (matchingFolders.Length > 0)
+            {
+                return matchingFolders[0]; // Return the first found Booombitch folder
+            }
+
+            return null; // Booombitch folder not found
         }
 
         private static AudioClip LoadAudioClip(string filepath)

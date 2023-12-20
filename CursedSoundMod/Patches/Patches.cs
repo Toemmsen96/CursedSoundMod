@@ -24,12 +24,31 @@ namespace CursedSoundMod.Patches
     [HarmonyPatch(typeof(AnimatedObjectTrigger))]
     internal class RecordPlayerPatch
     {
-        [HarmonyPatch("Start")]
-        [HarmonyPostfix]
-        private static void RecPatch(ref AudioClip ___playWhileTrue)
+        [HarmonyPatch("PlayAudio")]
+        [HarmonyPrefix]
+        private static void RecPatch(ref InteractTrigger __instance, ref AudioClip ___playWhileTrue, bool boolVal, bool playSecondaryAudios = false)
         {
             AudioClip newSFX = CursedSoundMod.erika;
-            //___playWhileTrue = newSFX;
+            try
+            {
+                bool flag = false;
+                Component[] componentsInParent = ((Component)__instance).gameObject.GetComponentsInParent(typeof(Component));
+                foreach (Component val in componentsInParent)
+                {
+                    if ((val).name.Contains("RecordPlayer"))
+                    {
+                        flag = true;
+                        break;
+                    }
+                }
+                if (flag && newSFX != null)
+                {
+                    ___playWhileTrue = newSFX;
+                }
+            }
+            catch (Exception)
+            {
+            }
         }
     }
 }

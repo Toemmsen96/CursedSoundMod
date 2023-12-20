@@ -89,8 +89,6 @@ namespace CursedSoundMod
 
         private static AudioClip LoadAudioClip(string filepath)
         {
-            //IL_006c: Unknown result type (might be due to invalid IL or missing references)
-            //IL_0072: Invalid comparison between Unknown and I4
             ManualLogSource val = BepInEx.Logging.Logger.CreateLogSource(modGUID);
             val.LogInfo((object)("Loading audio clip from " + filepath));
             UnityWebRequest audioClip = UnityWebRequestMultimedia.GetAudioClip(filepath, (AudioType)13);

@@ -15,7 +15,7 @@ namespace CursedSoundMod
     {
         private const string modGUID = "toemmsen.CursedSoundMod";
         private const string modName = "ToemmsensCursedSoundMod";
-        private const string modVersion = "1.0.3";
+        private const string modVersion = "1.0.4";
 
         private readonly Harmony harmony = new Harmony(modGUID);
 
